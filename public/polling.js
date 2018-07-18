@@ -2,33 +2,29 @@
 let clientUpdates = [];
 
 function pollRequest() {
-    console.log('clientUpdates at top of poll request: ', clientUpdates)
+    console.log('clientUpdates at top of poll request: ', clientUpdates);
     const postMethod = {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            "clientUpdates": clientUpdates
-        })
-
+            clientUpdates: clientUpdates,
+        }),
     };
 
-    fetch("/updates", postMethod)
+    fetch('/updates', postMethod)
         .then(response => response.json())
         .then(data => {
-
             if (data.updates.length) {
                 for (update of data.updates) {
-                    bitmap.setColor(update[0], update[1], update[2])
+                    bitmap.updateColor(update[0], update[1], update[2]);
                 }
-                clientUpdates = (data.updates)
             }
-            console.log('data at end of promises', data)
+        });
+    clientUpdates = []
 
-        })
-
-    setTimeout(pollRequest, 5000);
-
+    setTimeout(pollRequest, 1000);
 }
+
 pollRequest()

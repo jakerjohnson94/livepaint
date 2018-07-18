@@ -5,27 +5,20 @@ const app = express()
 app.use(express.static('public'))
 app.use(express.json())
 
-// Fill in your request handlers here
-let updates = [];
 
+let updates = [];
 
 app.post('/updates', function (req, res) {
 
-    let updateQuery = (req.body.clientUpdates.length - updates.length)
-    const client = req.body.clientUpdates
+    const clientUpdates = req.body.clientUpdates;
 
-
-    while (updateQuery > 0) {
-        updates.push(client[client.length - updateQuery - 1])
-        updateQuery--
-        console.log(updates)
-    }
+    clientUpdates.forEach(update => {
+        if (!updates.includes(update)) updates.push(update)
+    });
 
     res.send({
-
-        updates: updates
-    })
-})
-
+        updates: updates,
+    });
+});
 
 app.listen(port, () => console.log("it's working, yo"))
