@@ -17,7 +17,7 @@ app.post('/updates', function (req, res) {
     });
 
     res.send({
-        updates: updates,
+        updates
     });
 });
 
